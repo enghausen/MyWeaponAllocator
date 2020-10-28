@@ -134,7 +134,7 @@ public Plugin myinfo =
 	name = "MyWeaponAllocator",
 	author = "shanapu",
 	description = "Retakes weapon allocator",
-	version = "2.5",
+	version = "2.6",
 	url = "https://github.com/shanapu/MyWeaponAllocator"
 };
 
@@ -1282,11 +1282,11 @@ void EquipWeapons(int client)
 				iMoney -= GetWeaponPrice(g_sSMG_CT[client]);
 			}
 
-			if (StrEqual(g_sSecondary_CT[client], "weapon_hkp2000")&&!StrEqual(g_sSMG_CT[client], "weapon_deagle"))
+			if (StrEqual(g_sSecondary_CT[client], "weapon_hkp2000")&&!StrEqual(g_sSMG_CT[client], "weapon_deagle") || ((iRandom == 1 && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT)) && (g_iScout_CT-1) < gc_iScout_CT.IntValue))
 			{
 				GivePlayerItem(client, "weapon_hkp2000");
 			}
-			else if (!StrEqual(g_sSMG_CT[client], "weapon_deagle"))
+			else if (!StrEqual(g_sSMG_CT[client], "weapon_deagle") || ((iRandom == 1 && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT)) && (g_iScout_CT-1) < gc_iScout_CT.IntValue))
 			{
 				GivePlayerItem(client, "weapon_usp_silencer");
 			}
@@ -1337,8 +1337,10 @@ void EquipWeapons(int client)
 				GivePlayerItem(client, g_sSMG_T[client]);
 				iMoney -= GetWeaponPrice(g_sSMG_T[client]);
 			}
-			if (!StrEqual(g_sSMG_T[client], "weapon_deagle"))
-			GivePlayerItem(client, "weapon_glock");
+			if (!StrEqual(g_sSMG_T[client], "weapon_deagle") || ((iRandom == 1 && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T)) && (g_iScout_T-1) < gc_iScout_T.IntValue))
+			{
+				GivePlayerItem(client, "weapon_glock");
+			}
 		}
 	}
 	else if (g_iRoundType == DEAGLE_ROUND)
